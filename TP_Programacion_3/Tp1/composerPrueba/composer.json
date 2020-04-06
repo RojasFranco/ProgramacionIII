@@ -1,0 +1,6 @@
+{
+    "name": "franco/composer-prueba",
+    "require": {
+        "namnv609/php-rest-countries": "^1.0"
+    }
+}
