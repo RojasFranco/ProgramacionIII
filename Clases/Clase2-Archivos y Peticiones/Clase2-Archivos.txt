@@ -1,0 +1,26 @@
+Generales: fopen, fclose, fread/fgets, fwrite, copy, unlink(eliminar)
+
+Abrir-Cerrar
+$archivo = fopen('archivo.txt', modo);
+modo: r,w,a, x(crea archivo, false si existe), r+,w+,a+
+fclose($archivo)
+
+Leer
+fread(archivoAbiertp, cantMaxLeer)->retorna string completo
+ej: echo fread($archivo, filesize('archivo.txt'));
+fgets->retorna 1 linea
+ej: echo fgets($archivo);
+Para leer todo con fgets:
+while(!feof($archivo))
+{echo fgets($archivo)."<br>"}
+
+Escritura
+$bytes = fwrite($archivo, "pepe");cant de bites si escribio, false sino
+
+Copiar
+copy('archivoOrigen', 'archivoDestino'); true si salio bien, falso sino
+
+Borrar
+unlink('archivo');
+
+PHP_EOL salto de linea

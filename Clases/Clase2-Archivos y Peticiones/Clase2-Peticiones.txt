@@ -1,0 +1,63 @@
+En servidor hacemos una especie de api para comunicarnos
+
+En index.php hacemos las peticiones(GET,POST,PUT, o DELETE)
+Obs: Con get, en params puedo enviar datos(ver como se agregan a la peticion)
+
+Variables superGlobales: '$_' ->Estan disponible en todo el codigo
+
+$_GET: peticion para obtener recursos->devuelve un array
+$_GET['nombre']-->para obtener el nombre
+Esta peticion get tenemos que convertir a json(con json_encode)
+EJ:
+$Rta = new stdClass;
+$Rta->variable=true;
+$Rta->variableB="Franco";
+echo json_encode($Rta)--->Muestra ese json
+
+$_POST
+Enviamos : en body ->x x-www.form-urlencoded O form-data
+en params: los datos a enviar
+
+$_REQUEST
+Puedo obtener Get y Post, aunque no voy a saber con cual estan ingresando
+a mi api.
+Para saberlo pued usar el metodo isset():
+if(isset($_GET['id']))
+{echo "metodo get: "$_GET['id']}
+else
+{ echo "Metodo POST"}
+OTRA FORMA: $id=$_GET['id']??0 (devuelve id si existe get, sino 0)
+
+$_SERVER:
+echo json_encode($_SERVER);-->ME muestra info de la peticion
+$request_metod = $_SERVER['REQUESTMETHOD'] --> ME Devuelve la peticion utilizada
+if($request_metod=='POST')
+{}
+else if($request_metod=='GET')
+{}
+else
+{echo "405 method not allowed"}
+
+otra funcionalidad-------------VIdeo 3
+$path_info = $_SERVER('PATH_INFO');---->Obtiene lo que agrego en la peticion(/personas por ej)
+
+switch($path_info)
+{
+ case '/mascotas':
+
+ case '/personas':
+
+ case '/autos':
+
+en cada case puedo agregar lo que hice arriba (request method)
+}
+
+La forma de trabajar es manejar esto en el index
+
+
+
+Diferencia entre url y uri:
+Uri recibe direccion mas recurso/s despues de la extension(#algo)
+
+Diferencia entre api y RestApi:
+ApiRest: Es una api sin estado, donde yo no se de donde viene cada peticion
