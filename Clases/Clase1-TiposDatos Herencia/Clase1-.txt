@@ -1,0 +1,24 @@
+crear carpeta en Xampp/htdocs
+alli crear index.php(para q al abrir la carpeta sea lo 1ro a iniciar)
+
+Variables
+$nombre = "ALGO" --->son dinamicas
+
+var_dump(algo)---->muestra ese algo con todos sus detalles
+
+include 'ubicacion'
+require 'ubicacion'
+Son para pasar funcionalidad de un archivo a otro, si este no existe
+include tira warning, y require tira error.
+
+constructor: public __construct()
+$this->atributo(aca no hace falta agregar'$' al atributo)
+
+Usamos composer para dependencias
+-en mi carpeta del ejercicio, agregamos carpeta composerPorEj
+-dentro de composerPorEj ejecuto composer init para que me genere el composer
+-composer required monolog/monolog(por ej) y con esto no hace falta ir al git del creador
+Obs:todas las dependencias van a estar en 'vendor'
+composer.JSON->aca van a estar las dependencias necesarias. El composer install mira aca
+-hay que agregar gitignore y dentro de el vendor(para no subir a git esto)
+APLICAMOS ESTO EN TP1
