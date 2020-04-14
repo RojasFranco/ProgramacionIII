@@ -1,0 +1,29 @@
+Para emular que enviamos archivo de html:
+Post->form data...key:archivo, value:elijo archivo
+
+Tengo que guardar archivo en un origen y destino}
+$origen = $_FILES['archivo']['tmp_name']---->Que es la ubicacion temporal
+$destino = './files/foto.jpg'
+
+Guardar imagen:
+por ej: para tener un nombre 'unico' al guardar en destino
+{
+$explode=explode('.',$_FILES[archivo][name]);
+$destino = './files/' .$explode[0] . '-' .time() .array_reverse($explode[0]);
+}
+move_uploaded_file($origen,$destino);-->Devuelve true o false
+
+Borrar:
+unlink('files/' $_FILES['archivo']['name']);---->Borra imagen
+
+Peero en nuestro servicio no vamos a borrar la imagen ya que
+vamos a copiarla en otra ubicacion antes de hacerlo.
+$file='files/' . $_FILES['archivo']['name']);
+$destino = 'backup/'.$_FILES['archivo']['name']);
+copy($file, $destino);
+unlink($file);
+
+
+
+funcion explode(delimitador,string)--->devuelve strings separados por delimit
+time()-->devuelve diayhs
