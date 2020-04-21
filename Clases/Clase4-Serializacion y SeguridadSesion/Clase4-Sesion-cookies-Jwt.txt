@@ -1,0 +1,46 @@
+Variables de sesion: son una forma de guardar datos/estado del usuario
+que ingresa.(Actualmente no se hace apisRest porque ocupan espacio)
+
+session_start()-->para iniciar la sesion.
+variable global: $_SESSION
+$_SESSION{'nombre'}--->puedo asignarle informacion.
+
+la sesion lo que hace es escribir en el cliente un id, una cookie unica
+que contiene informacion y se envia en cada peticion que hace el cliente
+, hasta que se cierre la misma.
+
+Cookies:
+setcookie('nameCookie', "lo que quiera asignarle")-->para setear una cookie
+la cual queda almacenada en 'cookies'
+El problema es que puedo editarlo (con f12)->cookies
+
+variable global: $_COOKIE-->recibo del usuario
+por ej: $_COOKIE('usuario')
+
+Sesion guarda informacion de la peticion en el servidor
+Cookie guarda informacion de la peticion en el usuario
+Por ej: usuario y pass guardamos en session, y luego otra inf en cookies
+
+Con apiRest:
+googlear: jwt para tener un token. Comunicacion entre cliente y servidor
+header: metadata del token
+payload: donde compartimos informacion-->esto es publico
+firma: firma unica
+Genera una firma a traves de la clave secreta, de modo que si se cambian los valores
+en f12 me generaria una firma distinta.
+
+Clas JWT
+jwt::encode
+jwt::decode-->para decodificar, si le paso algun argumento distinto al que
+se creo, me tira error.
+Esto es para que se verifique el token que me envia el cliente
+
+Puedo recibir el token: (en postman se envia en headers, creando variable token)
+en mi servidor: $headers =getallheaders();
+$token = $headers('token');
+
+uso: por ej: pedimos usuario y contraseña, le damos un token y luego 
+para efectuar algun cambio solicitamos el token y sabremos si modifico o no algun dato(en f12).
+Es mas que nada para autentificacion.
+Por eso se usa una key unica y secreta, para que no pueda enviarme otro token
+a traves de mi clave.

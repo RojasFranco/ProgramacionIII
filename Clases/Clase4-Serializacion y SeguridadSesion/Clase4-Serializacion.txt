@@ -1,0 +1,7 @@
+Veremos otra forma de leer archivos
+Vamos a serializar datos para guardar objetos.
+
+serialize() ->Para serealizar
+unserialize()->Para deserealizar
+
+La ventaja es que con esto tambien serealizo metodos(en json no)
