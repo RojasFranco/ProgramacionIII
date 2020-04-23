@@ -1,15 +1,21 @@
 Variables de sesion: son una forma de guardar datos/estado del usuario
-que ingresa.(Actualmente no se hace apisRest porque ocupan espacio)
+que ingresa. Esto es porque las peticiones no guardan estado.  API REST
+Son una forma de vincular un usuario del lado del cliente con nuestra aplicacion
+Antes las peticiones guardaban estado, pero se dejo de trabajar de esa manera porque ocupa espacio)
 
-session_start()-->para iniciar la sesion.
+session_start()-->para iniciar la sesion. abrir variable de sesion-->en cada pag que usemos
+Se habilitan las sesiones y voy a tener la variable $_SESSION
+En todas las paginas que haga sesion_start() voy a tener acceso a $_SESSION
 variable global: $_SESSION
 $_SESSION{'nombre'}--->puedo asignarle informacion.
 
+sesion_unset()--->Elimina todas las variables de sesion
+sesion_destroy--->Elimina la sesion
 la sesion lo que hace es escribir en el cliente un id, una cookie unica
 que contiene informacion y se envia en cada peticion que hace el cliente
 , hasta que se cierre la misma.
 
-Cookies:
+Cookies: Se guardan en el cliente
 setcookie('nameCookie', "lo que quiera asignarle")-->para setear una cookie
 la cual queda almacenada en 'cookies'
 El problema es que puedo editarlo (con f12)->cookies

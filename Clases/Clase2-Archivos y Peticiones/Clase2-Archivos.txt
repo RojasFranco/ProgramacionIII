@@ -18,7 +18,7 @@ Escritura
 $bytes = fwrite($archivo, "pepe");cant de bites si escribio, false sino
 
 Copiar
-copy('archivoOrigen', 'archivoDestino'); true si salio bien, falso sino
+copy('UbicacionarchivoOrigen', 'UbicacionarchivoDestino'); true si salio bien, falso sino
 
 Borrar
 unlink('archivo');
