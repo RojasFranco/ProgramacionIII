@@ -1,7 +1,7 @@
 Variables de sesion: son una forma de guardar datos/estado del usuario
-que ingresa. Esto es porque las peticiones no guardan estado.  API REST
+que ingresa. 
 Son una forma de vincular un usuario del lado del cliente con nuestra aplicacion
-Antes las peticiones guardaban estado, pero se dejo de trabajar de esa manera porque ocupa espacio)
+(Antes las peticiones guardaban estado, pero se dejo de trabajar de esa manera porque ocupa espacio)
 
 session_start()-->para iniciar la sesion. abrir variable de sesion-->en cada pag que usemos
 Se habilitan las sesiones y voy a tener la variable $_SESSION
@@ -14,6 +14,8 @@ sesion_destroy--->Elimina la sesion
 la sesion lo que hace es escribir en el cliente un id, una cookie unica
 que contiene informacion y se envia en cada peticion que hace el cliente
 , hasta que se cierre la misma.
+EN SESION SE GUARDA POR EJ USER Y PASS DEL USUARIO, YA QUE ES EL LUGAR 'SEGURO' PORQUE ACA NO PUEDE ACCEDER EL CLIENTE-->Inf para nuestra api
+EN CAMBIO EN LA COOKIE SI PUEDE HACER CAMBIOS---->Inf para el usuario
 
 Cookies: Se guardan en el cliente
 setcookie('nameCookie', "lo que quiera asignarle")-->para setear una cookie
@@ -27,7 +29,10 @@ Sesion guarda informacion de la peticion en el servidor
 Cookie guarda informacion de la peticion en el usuario
 Por ej: usuario y pass guardamos en session, y luego otra inf en cookies
 
-Con apiRest:
+
+Con apiRest: no almacenamos informacion en el servidor, sino que pasamos todo del lado del cliente. Mantiene api sin estado
+Entonces cada peticion va a tener que venir con todos los datos del usuario
+OBS: cuando genero el token, en el payload no puede ir informacion sensible porque esto va del lado del cliente
 googlear: jwt para tener un token. Comunicacion entre cliente y servidor
 header: metadata del token
 payload: donde compartimos informacion-->esto es publico
@@ -45,7 +50,8 @@ Puedo recibir el token: (en postman se envia en headers, creando variable token)
 en mi servidor: $headers =getallheaders();
 $token = $headers('token');
 
-uso: por ej: pedimos usuario y contraseña, le damos un token y luego 
+uso: por ej: pedimos usuario y contraseña que nos envia en un login por post,
+validamos que esten en nuestra BD, si esta entonces le damos un token y luego 
 para efectuar algun cambio solicitamos el token y sabremos si modifico o no algun dato(en f12).
 Es mas que nada para autentificacion.
 Por eso se usa una key unica y secreta, para que no pueda enviarme otro token
