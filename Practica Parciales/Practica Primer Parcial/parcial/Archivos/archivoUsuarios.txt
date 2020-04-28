@@ -1,0 +1,1 @@
+[{"nombre":"Franco","dni":"454545455","clave":"clave1234","tipo":"admin","obraSocial":"osecac","id":917},{"nombre":"pepe","dni":"454545455","clave":"clave4444","tipo":"user","obraSocial":"osecac","id":560},{"nombre":"jose","dni":"454545455","clave":"clave4444","tipo":"user","obraSocial":"osecac","id":713}]
