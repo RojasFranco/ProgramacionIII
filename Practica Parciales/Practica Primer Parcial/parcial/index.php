@@ -14,6 +14,7 @@ $path_info = $_SERVER["PATH_INFO"];
 
 $ubicacionArchivoUsuarios = "./Archivos/archivoUsuarios.txt";
 $ubicacionArchivoProductos = "./Archivos/archivoProducto.json";
+//$ubicacionImagenes = "./Imagenes";
 
 $ubicacionVentas = "./Archivos/ventas.xxx";
 
@@ -63,12 +64,13 @@ switch ($path_info) {
     case '/stock':
         if($metodo=="POST"){
             $headers = getallheaders();            
-            if(isset($_POST["producto"], $_POST["marca"], $_POST["precio"],$_POST["stock"],$headers["token"])){
+            if(isset($_POST["producto"], $_POST["marca"], $_POST["precio"],$_POST["stock"],$headers["token"], $_FILES["foto"])){
                 $token = $headers["token"];
                 $producto = $_POST["producto"];
                 $marca = $_POST["marca"];
                 $precio = $_POST["precio"];
                 $stock = $_POST["stock"];                
+                $fileKey = $_FILES["foto"];
                 
                 $manejadorToken = new TokenJwt();
                 try
@@ -78,6 +80,7 @@ switch ($path_info) {
                         $productoGuardar = new Producto($producto, $marca, $precio, $stock);
                         $manejadorArchivo = new ArchivoJson($ubicacionArchivoProductos);
                         $cantCaracteres = $manejadorArchivo->EscribirArchivo("w", $productoGuardar);
+                        Producto::guardarImagen($fileKey);//, $ubicacionImagenes);
                         $retorno = new RespuestaJson("ok", $cantCaracteres);
                         echo json_encode($retorno);
 
@@ -136,21 +139,20 @@ switch ($path_info) {
                     $token = $headers["token"];
                     $manejadorToken = new TokenJwt();
                     try
-                {
-                   $usuario = $manejadorToken->MostrarDatos($token);
-                   if($usuario->tipo=="user"){                    
-                       $manejadorArchivo = new ArchivoJson($ubicacionArchivoProductos);
-                       //$manejadorArchivo->Val
+                    {
+                    $usuario = $manejadorToken->MostrarDatos($token);
+                    if($usuario->tipo=="user"){                    
+                        $manejadorArchivo = new ArchivoJson($ubicacionArchivoProductos);
+                        //$manejadorArchivo->Val
                         $productoVender = $manejadorArchivo->ValidarProducto($idProducto);
                         if($productoVender->valido){
                             $producto = $productoVender->contenido;
                             if($producto->stock>0 && $producto->stock>=$cantidad){
                                 $precioTotal = ($producto->precio)*($cantidad);
 
-                                $ventaprod = new Venta($idProducto, $cantidad, $ususario);
-                                $serializado = serialize($ventaprod);
+                                $ventaprod = new Venta($idProducto, $cantidad, $ususario);                                
                                 $manejadorArchivoVentas = new ArchivoJson($ubicacionVentas);
-                                $manejadorArchivoVentas->EscribirArchivo("w", $serializado);
+                                $manejadorArchivoVentas->EscribirArchivoSerializado("w", $ventaprod);
                                 
                                 $retorno = new RespuestaJson("ok", $precioTotal);
                                 echo json_encode($retorno);
@@ -185,13 +187,12 @@ switch ($path_info) {
                     try{
                         $usuario = $manejadorToken->MostrarDatos($token);
                         $manejadorArchivo = new ArchivoJson($ubicacionVentas);
-                        $listaProductos = $manejadorArchivo->LeerArchivo("r");
-                        $listaProductos = unserialize($listaProductos);
-                        if($usuario->tipo=="admin"){
+                        if($usuario->tipo=="admin"){                            
+                            $listaProductos = $manejadorArchivo->MostrarArchivoDeserealizado();
                             echo json_encode($listaProductos);
                         }
                         else{
-                            
+                            echo "no tiene permisos";
                         }
 
                     }                    

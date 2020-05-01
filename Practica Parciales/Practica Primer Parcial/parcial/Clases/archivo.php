@@ -66,10 +66,10 @@ class ArchivoJson{
 
     public function LeerArchivoSerializado($modoApertura){
         $tamañoArchivo = filesize($this->ubicacionArchivo);
+
         $archivo = fopen($this->ubicacionArchivo, $modoApertura);
         if($tamañoArchivo>0){
             $listaRetornar = fread($archivo, $tamañoArchivo);
-            //$listaRetornar = json_decode($listaRetornar);
         }
         else{
             $listaRetornar = "";
@@ -77,16 +77,31 @@ class ArchivoJson{
         fclose($archivo);
         return $listaRetornar;        
     }
-    public function EscribirArchivoSerializado($modoApertura, $stringEscribir){                
 
-        $strLeido = $this->LeerArchivo("r");
-        
+    
+    public function EscribirArchivoSerializado($modoApertura, $elementoAEscribir){                
 
+        $strLeido = $this->LeerArchivoSerializado("r");
         $archivo = fopen($this->ubicacionArchivo, $modoApertura);
-        $retorno = fwrite($archivo, $strLeido . $stringEscribir);
+        $escribir = serialize($elementoAEscribir);
+        $retorno = fwrite($archivo, $strLeido . $escribir.PHP_EOL);
         fclose($archivo);
 
         return $retorno;
 
+    }
+
+    public function MostrarArchivoDeserealizado(){
+        
+        $archivo = fopen($this->ubicacionArchivo, "r");
+        $listaRetornar = array();
+        while(!feof($archivo)){
+            $serealizado=fgets($archivo);
+            if($serealizado!=""){
+                $deserealizado = unserialize($serealizado);
+                array_push($listaRetornar, $deserealizado);
+            }            
+        }                
+        return $listaRetornar;
     }
 }
