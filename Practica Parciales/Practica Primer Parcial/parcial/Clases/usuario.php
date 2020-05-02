@@ -19,4 +19,10 @@ class Usuario{
         $this->id = rand(0,1000);
     }
 
+    public static function GuardarUsuario($ubicacionArchivo, $usuarioGuardar){
+        $manejadorArchivo = new ArchivoJson($ubicacionArchivo);
+        $retorno = $manejadorArchivo->EscribirArchivo("w", $usuarioGuardar);
+        return $retorno;
+    }
+
 }

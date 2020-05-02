@@ -63,6 +63,18 @@ class ArchivoJson{
         return $retorno;
     }
 
+    public function ModificarArchivoProducto($modoApertura, $id, $nuevoStock){
+        $listaActual = $this->LeerArchivo("r");
+        foreach ($listaActual as $key => $producto) {
+            if($producto->id == $id){
+                $producto->stock = $nuevoStock;
+                break;
+            }
+        }
+        $archivo = fopen($this->ubicacionArchivo, $modoApertura);
+        fwrite($archivo, json_encode($listaActual));
+    }
+
 
     public function LeerArchivoSerializado($modoApertura){
         $tamañoArchivo = filesize($this->ubicacionArchivo);

@@ -29,8 +29,7 @@ switch ($path_info) {
                 $clave = $_POST["clave"];
 
                 $usuario = new Usuario($nombre, $dni, $clave, $tipo, $obraSocial);
-                $manejadorArchivo = new ArchivoJson($ubicacionArchivoUsuarios);
-                $caracteresEscritos = $manejadorArchivo->EscribirArchivo("w", $usuario);
+                $caracteresEscritos = Usuario::GuardarUsuario($ubicacionArchivoUsuarios, $usuario);
                 $retorno = new RespuestaJson("ok",$caracteresEscritos);
                 echo json_encode($retorno);
             }
@@ -50,9 +49,8 @@ switch ($path_info) {
                 $retornoBusqueda = $manejadorArchivo->ValidarUsuario($nombre, $clave);
                 if($retornoBusqueda->valido){
                     $usuarioGuardar = $retornoBusqueda->contenido;
-                    unset($usuarioGuardar->clave);
-                    $manejadorToken = new TokenJwt();
-                    echo $manejadorToken->SolicitarToken($usuarioGuardar);                    
+                    unset($usuarioGuardar->clave);                    
+                    echo TokenJwt::SolicitarToken($usuarioGuardar);
                 }
                 else{
                     echo "usuario invalido";
@@ -75,7 +73,7 @@ switch ($path_info) {
                 $manejadorToken = new TokenJwt();
                 try
                 {
-                    $usuario = $manejadorToken->MostrarDatos($token);
+                    $usuario = TokenJwt::MostrarDatos($token);
                     if($usuario->tipo=="admin"){
                         $productoGuardar = new Producto($producto, $marca, $precio, $stock);
                         $manejadorArchivo = new ArchivoJson($ubicacionArchivoProductos);
@@ -152,9 +150,9 @@ switch ($path_info) {
 
                                 $ventaprod = new Venta($idProducto, $cantidad, $ususario);                                
                                 $manejadorArchivoVentas = new ArchivoJson($ubicacionVentas);
-                                $manejadorArchivoVentas->EscribirArchivoSerializado("w", $ventaprod);
-                                
+                                $manejadorArchivoVentas->EscribirArchivoSerializado("w", $ventaprod);                                
                                 $retorno = new RespuestaJson("ok", $precioTotal);
+                                $manejadorArchivo->ModificarArchivoProducto("w",$idProducto,$producto->stock-$cantidad);
                                 echo json_encode($retorno);
                             }
                             else{

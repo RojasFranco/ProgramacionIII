@@ -2,29 +2,25 @@
 
 use \Firebase\JWT\JWT;
 class TokenJwt{    
-    private $key = "miClaveSecreta";
-    public $payload;
+    private static $key = "miClaveSecreta";
+    //public $payload;
 
-    public function __construct()
-    {        
-    }
-
-    public function SolicitarToken($datos){
-        $this->payload = array(
+    public static function SolicitarToken($datos){
+        $payload = array(
             "iss" => "http://example.org",
             "aud" => "autentificacion",
             "iat" => time(),
-            "exp" => time()+180,
+            "exp" => time()+600,
             "datos" => $datos
             );
-        $jwtRetorno = JWT::encode($this->payload, $this->key);
+        $jwtRetorno = JWT::encode($payload,TokenJwt::$key);
         return $jwtRetorno;
     
     }
 
-    public function ValidarToken($token){    
+    public static function ValidarToken($token){    
         try{
-            $decoded = JWT::decode($token, $this->key, array('HS256'));            
+            $decoded = JWT::decode($token, TokenJwt::$key, array('HS256'));            
             return $decoded;
         }        
         catch(Exception $error){            
@@ -33,9 +29,9 @@ class TokenJwt{
         }        
     }
 
-    public function MostrarDatos($token){
+    public static function MostrarDatos($token){
         try{            
-            $retorno = $this->ValidarToken($token);
+            $retorno = TokenJwt::ValidarToken($token);
             return $retorno->datos;
         }        
         catch(Exception $err){
