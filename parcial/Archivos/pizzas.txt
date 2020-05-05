@@ -1,0 +1,1 @@
+[{"tipo":"piedra","precio":"144","stock":4,"sabor":"napo"},{"tipo":"molde","precio":"144","stock":0,"sabor":"napo"}]

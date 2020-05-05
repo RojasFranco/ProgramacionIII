@@ -1,0 +1,1 @@
+[{"email":"rojasfranco@gmail.com","clave":"clave1234","tipo":"admin"},{"email":"Leo@gmail.com","clave":"clave1234","tipo":"encargado"},{"email":"coki@gmail.com","clave":"clave1234","tipo":"cliente"},{"email":"Leo@gmail.com","clave":"clave1234","tipo":"encargado"}]
