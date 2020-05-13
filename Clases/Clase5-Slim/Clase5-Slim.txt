@@ -1,0 +1,40 @@
+Seguimos con apiRest, pero con Framework: Slim -- Tambien existen mas potentes(Laravel)
+Sigue con la arquitectura de apiRest.
+
+Se instala con composer(ver SlimFramework)
+Hay que instalar Slim 4 y standar PSR-7
+Copiar el codigo de deployment($app = AppFactory::create()
+y $app->run)
+
+Vamos a sacar "index.php" al pegarle al servidor configurando apache:
+creamos .htaccess y aca pegamos Apache Configuration de la pagina oficial slim
+Debajo de create: $app->setBasePath("/nombreCarpetaDondeEstaIndex");
+y ya en postman no ponemos "index.php"
+
+$app->get("/path_info", callbackManejador)
+/path:info[/]-->los corchetes para indicarle que es opcional esa barra
+puedo obtener informacion con /path_info/datoARecibir
+
+$app->get('persona/{id}, function(Request $request, Response $response, array $args){
+  $array = array("nombre"=>"Franco", "apellido"=>"ROJAS");
+  $queryParams = $request->getQueryParams(); --->Los que viene por parametro
+  $rta = array("args"=>$args, "query"=>$queryParams);
+  
+  $response->getBody()->write(json_encode($rta));
+  return $response
+	->withHeader('conten-type', 'application/json)
+	->withStatus(200);------->statusCode
+})
+
+$app->run();
+
+Datos por cabecera:
+$request->getHeader();$request->getHeader["token"];
+
+BODY:
+$app->post("/pat_info', function(Request $request, Response $response)(){
+
+$body = $request->getParsedBody();
+);
+
+Archivos:
