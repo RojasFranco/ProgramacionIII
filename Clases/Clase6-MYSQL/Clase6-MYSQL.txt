@@ -1,0 +1,32 @@
+Tenemos que activar MYSQL
+
+y en localhost---> phpMyAdmin tenemos la base de datos
+
+En nueva creamos nuestra BBDD-->le asignamos nombre y decodificacion(usamos UTF-8spanish2)
+
+************INSERT************
+Igual a SQL, para agregar mas de un dato, en value despues de agregar el 1er dato
+pongo una coma "," y agrego nuevo dato
+
+************PODEMOS HACER BUSQUEDAS SIN DATO COMPLETO************
+
+Ej: select * from alumnos where
+localidad LIKE "avel%"
+Busca las palabras que empiecen con avel
+
+TENEMOS INDICES PARA INDICAR A VARIABLES
+-PRIMARIA
+-UNIQUE: Para que no se repita
+-Indice: Por ejemplo para hacer relacion entre tablas(FK)
+
+
+************ RELACION ENTRE TABLAS ************
+Si hago borrado en cascada, cuando borre un dato(un PK de una tabla) que es una FK en otra tabla
+lo que hace es borrar los dos datos para mantener integridad de la BD.
+Si no hago en cascada, cuando quiera borrar un dato que es PK en si, y FK en otra tabla
+no me va a permitir borrarla porque esta en uso ese Fk en otro tabla.
+
+********CUANDO HAY RELACION DE MUCHOS A MUCHOS ********
+Creamos una tabla intermedia, que va a contener el id de las tablas que quiero relacionar
+para que de este modo queden relacionadas.-
+
