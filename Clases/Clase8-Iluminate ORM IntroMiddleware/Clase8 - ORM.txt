@@ -1,0 +1,86 @@
+OBS ANTES: schema() NOS PERMITE CREAR TABLA (PUEDO VER EN DOCUMENTACION ILUMINATE)
+
+
+ORM: Mapeo Objeto Relacional
+Mapea de la tabla a una clase. Se relaciona unaclase con una tabla de la BBDD
+
+Tendremos una clase por ejemplo Alumnos que implementara todos los metodos
+de esa tabla de la bbdd.
+Vamos a manejar una tabla como si fuera un objeto.
+
+
+Creamos carpeta 'modelos' por ejemplo:
+Dentro creamos la clase, por ejemplo alumnos.php, y esta clase tiene que ser extension
+de algo para usar el 'Mapeo'. Esta en la documentacion
+
+class Alumno extends Iluminate\Database\Eloquent\Model{  // AHORA LA PUEDO USAR
+
+}
+
+
+en index:
+
+require './modelos/alumnos.php'
+$app->get('/orm, function(Request $request, Response $response, $args){
+
+ $alumno = Alumno::find(15); // BUSCA POR ID
+
+  $alumno->alumno = "Nuevo nombre"; //LE CAMBIA A ESE ALUMNO EL NOMBRE
+
+  $rta = $alumno->save();
+
+
+// $rta = json_encode($alumno);
+
+ $response->getBody()->write($rta);
+ return $response;
+})
+
+
+$alumno = Alumno::all()--->TRAE TODOS
+Alumno::where () IGUAL QUE VENIAMOS TRABAJANDO CON CAPSULE
+
+************************	IMPORTANTE	*************************************
+Asume que la tabla se llamara igual que la clase pero agregando una s, alumno->alumnos
+Tambien un campo autoincremental llamada Id.
+DE TODOS MODOS ESTO SE PUEDE CONFIGURAR SOBRESCRIBIENDO METODOS
+
+en clase Alumno
+class Alumno extends Iluminate\Database\Eloquent\Model{
+ protected $table = "nombre de tabla correspondiente";
+ protected $primaryKey = "nombre del PK, id"
+
+}
+
+************************	INSERT	*************************************
+
+$alumno = new Alumno;
+
+$alumno->alumno = "nuevo alumno";
+$alumno->legajo = 6543;
+$alumno->localidad = "Lanus";
+$alumno->cuatrimestre = 2;
+
+$rta = $alumno->save(); // DEVUELVE TRUE O FALSE
+
+
+*********************************************************************
+
+TIENE QUE ESTAR UPDATE_AT Y CREATE_AT
+
+1)Puedo hacerlo a mano cuanto creo la tabla (tipo de dato TIMESTAMP)
+2)Puedo hacerlo con schema
+Capsule::schema()->create("users", function($table)){
+$table->increments('id');
+$table->string("email")->unique();
+$table->timestamps();
+}
+
+OTRA COSA
+-)Dentro de la clase Alumno
+public $timestamps =false; //sACA LAS 3 COLUMNAS DEL FONDO
+********************* ADICIONAL
+- SoftDelete: Que lo que hace es no mostrar esos datos, no los borra
+- Metodos: Podemos declarar metodos 'scopeMetodo' y llamarlos 'metodo'
+
+

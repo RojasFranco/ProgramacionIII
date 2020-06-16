@@ -1,0 +1,133 @@
+**********	Recordando PDO:
+
+$app->group('/path_info', function(){
+
+  $this->get('/', \claseAUsarManejadora::class . ':metodo'){
+}
+})
+
+
+MIDLLEWARE : Intermediario entre Api y Peticion
+
+IMP!! NO HACE FALTA USAR PDO PARA EL PARCIAL XD XD XD XD
+
+********************	ILUMINATE	********************
+
+1°) SlimFramework
+2°) Iluminate en packagist.org --->Entramos al git : es un componente de Laravel
+Usa mismo ORM
+
+VER VIDEO YA QUE SE LAGUEEO TODO
+
+$capsule->setAsGlobal(); // ES una especie de singleton
+
+$capsule->bootEloquent();
+(TODO ESTO ESTA EN LA CARPETA CONFIG-> capsule.php)(Copio y pego lo que esta en la documentacion)
+
+////////////////
+Se Instala con composer con la instruccion de la pagina
+-composer require iluminate/database  y ademas requiere
+-composer require 
+
+Luego de estas configuraciones no necesito tocarlo mas:
+en index agrego su referencia: require './config/capsule.php'
+
+
+
+$app->get('/', function(Request $request, Response $response, $args){
+Ejemplo 1: PUEDO VER TODAS LAS OPCIONES EN LARAVEL.COM
+  $alumnos = Capsule::table('nombreTabla')->get(); //Es una especie de execute
+//get() me trae todos  
+
+Ejemplo 2_
+  $alumnos = Capsule::table('nombreTabla')
+  ->where('legajo','1234')   //Usa igualdad entre ellos, si quiero otro: ('legajo', '>','1234')
+  ->get();			//Si quiero concatenar agrego abajo ->where(condicion)
+
+
+  ->whereRaw('id==1') //Para sentencia SQL
+
+//en lugar de get() puedo usar first() para traer el primero y en JSON en lugar de array
+
+//  ->select('alumno','legajo') Me trae esos dos campos unicamente
+
+//  ->orWhere('nombre', 'PEPE') PARA Ó
+
+
+//  ->orderBy('edad')
+
+
+  $rta = json_encode($alumnos);
+  $reponse->getBody()()->write($rta);
+  return $response;
+}
+
+**********************	JOIN	**********************
+
+$app->get('/join', function(Request $request, Response $response, $args){
+
+  $alumnos = Capsule::table('alumnos')
+  ->join('localidades', 'localidades.id','alumnos.localidad')
+  ->join('cuatrimestres', 'cuatrimestres.id', 'alumnos.cuatrimestre')
+  -select('alumnos.id', 'alumno', 'legajo', 'localidades.localidad', 'cuatrimestre.nombre')
+  ->get()
+//join('tabla con la que hare join', 'PK', 'FK')
+//PUEDO PONER ALIAS TAMBIEN EN SELECT
+
+})
+
+
+********************** METODOS DE AGREGACION	**********************
+Tambien esta en Laravel
+Por ej:
+  $alumnos = Capsule::table('alumnos')
+ ->count(); //Cuenta todos los datos agregados
+
+ ->avg('legajo') //CALCULA EL PROMEDIO
+
+
+********************** INSERTAR	**********************
+
+$app->post({
+
+ $alumnos = Capsule::table('alumnos')
+ ->insert([
+ "alumno" =>"eloquent",
+ "legajo" => 1584,
+ "localidad" => 1,  //OBS!! SIGUEN FUNCIONANDO LAS CONSTRAINT. RESPETA LA ESTRUCTURA
+ "cuatrimestre" =>2
+]);
+
+ESTO devuelve true o false si logro o no insertar
+})
+
+*****Tenemos tambien insertGetId --- Ademas de insertar devuelve el id en el cual se inserto
+*****Tambien Podemos insertar multiples en el array de insert
+
+********************** UPDATE	**********************
+
+$app->put({
+  $alumnos = Capsule::table('alumnos')
+  ->where('id','18')
+  ->update([
+  "alumnos" => "PEPE"
+])
+  
+Devuelve el numero de filas afectadas.
+
+})
+
+  $alumnos = Capsule::table('alumnos')
+  ->where('id','18')
+->increment('localidad', 1)   //Incrementa su localidad +1
+->decrement('localidad' 3)	//Decrementa su localidad -3
+
+
+**********************	DELETE	**********************
+$app-delete({
+  $alumnos = Capsule::table('alumnos')
+  ->where('id','18')
+  ->delete();
+
+DEVUELVE CANTIDAD DE LINEAS AFECTADAS
+})

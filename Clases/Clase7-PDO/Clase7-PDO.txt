@@ -1,0 +1,103 @@
+************************************	PDO(PhpDataObjetct)	************************************
+
+Realizar consultas de PHP en BBDD
+Es una clase de Php que nos permite conectarnos a la BBDD.
+Nos permite conectarnos practicamente a cualquier BBDD(Mysql, sql, oracle,MariaDB, etc) de la misma manera
+Es una interfaz para acceder a BBDD, proporciona una capa de abstraccion. Va a ser transparente que BBDD estemos usando
+
+1)Hay que instanciar un objeto de PDO
+
+try{
+
+   $conStr =  'mysql:host=localhost; dbname = prog3'; //string de conexion
+   $user = 'root'; // Vienen por defecto, pero podriamos cambiarlo
+   $pass = ""; // Vienen por defectp
+   $pdo = new PDO($conStr, $user, $pass);
+}
+catch(PDOException $err){ //o \Throwable
+   echo $err->getMessage();
+}
+
+NOS DEVUELVE UNA INSTANCIA DE LA CLASE PDO, pero no quiero que se haga una instancia nueva cada
+vez que se conecte
+Permanecera activa durante el tiempo de vida del opjeto PDO, puedo cerrarla asignando
+==>	CREAMOS UNA ENTRADA CON EL PATRON SINGLETON
+
+*******************************
+Luego en cada accion voy a tener que usar funcion prepare:
+Ej: $query = $pdo->prepare("select * from Alumnos")
+luego $query->execute(); que es donde se ejecuta la consulta
+$query->fetchAll(); //DENTRO DE FETCHALL PUEDO ESPECIFICAR QUE QUIERO
+
+
+**********************************	MANEJADOR	**********************************
+Vamos a tener una Clase que seria ClaseDTO de una tabla de BBDD, que va a implementar todos los metodos
+como insert, update, delete.
+Vamos a tener una interface, que va a detallar las acciones que voy a realizar
+Y Vamos a tener una clase manejador, que implementa esa interface, y realiza las acciones llamando a las funciones de 
+la clase que implementa las acciones.
+
+la ClaseDTO, tiene que pedor el objeto creado con patron SINGLETON, para usar siempre el mismo acceso
+
+
+
+**********************************	FETCH	**********************************
+VAN DENTRO DE UN FETCHALL (FETCH trae solo una fila, pero podria ir iterando o FETCHOBJECT)
+
+- (PDO::FETCH_ASSOC): Devuelve array indexado por los nombres de las columnas del conjunto rdos
+- (PDO::FETCH_NUM): Devuelve array indexado por el nro de columna, tal como vuel devueldo en rdos, empezando con 0.
+- (PDO::FETCH_BOTH)(predeterminado): devuelve array indexado por nombre de columna e indexado numericamente
+- (PDO::FETCH_CLASS,"clasexD"): Convierte todos los objetos en la clase "clasexD". OBS: los campos de clasexD tienen que ser	 igual
+a los que realizo en la consulta de preparacion, sino no funciona.
+
+**********************************	Consultas con parametro	**********************************
+Por ejemplo select por id: PDO trae metodos para hacerlo, ya que no puedo concatenar el dato porque puede ser malicioso
+****** 1ra Forma
+Entonces, Donde quiero una variable voy a poner "?", y el dato lo voy a pasar en un array en execute. Y esto hace todas las validaciones
+Ejemplo:
+$query = $pdo->prepare("Select * from Alumnos WHERE id=? AND legajo=?")
+$query->execute(array($id, 4220));
+
+****** 2da Forma	MAS DESCRIPTIVO
+$idRecibido = 88;
+$query = $pdo->prepare("Select * from Alumnos WHERE id= :id");
+$query->execute(array(":id" = $idRecibido))
+
+****** 3er Forma	MAS DESCRIPTIVO Y CON UNA CAPA DE VALIDACION MAS
+$idRecibido=88;
+$query = $pdo->prepare("Select * from Alumnos WHERE id= :id");
+$query->bindParam(":id", $idRecibido, PDO::PARAM_INT); //Puedo pedir un tipo de dato determinado en 3er parametro
+$query->execute();
+
+
+OTRO EJ:
+$alumno ="PEPE";
+$legajo =2214;
+$query = $pdo->prepare("INSERT INTO Alumnos 'alumno', 'legajo' VALUES (?,?)")
+$query->bindParam(1, $alumno)
+$query->bindParam(2, $legajo);
+$query->execute();
+
+**
+Tambien tengo $query->bindColumn(1, $var1) //Vincula por columna 1
+o $query->bindColumn("colTres", $var3) //Vincula por nombre de columna
+y uso while($fila = $query->fetch()){
+   echo "PEPE";
+}
+
+*******************************	DELETE - INSERT	***************
+Mismo procedimiento Peeero:
+tenemos 
+$resultado = $query->rowCount();---->nos devuelve cantidad de filas afectadas
+
+****Update
+$query->execute() Nos devuelve true o false, pero tambien puedo usar rowCount()	
+
+*****************************************************	RESUMEN	*******
+1) Instancio un objeto PDO
+2) A esa instancia la preparon con la sentencia con funcion prepare(sentencia);
+3) Ejecutamos la consulta
+4) Obtenemos el resultado
+
+
+Ver $pdo->lastInsertId()---->QUE ESTA EN EL GIT DE VILLEGAS

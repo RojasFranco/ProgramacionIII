@@ -1,0 +1,11 @@
+Hay un dibujo en pagina Slim.
+Son capas que estan entre las peticiones y nuestra Api.
+Se ejecutan antes y despues de cada llamada a nuestra Api
+
+Tenemos en documentacion de Slim ejemplos
+
+Si queremos denegar el acceso por ejemplo en un beforeMiddleware:
+
+en lugar de generar $response con el manejador y el reques
+creamos nueva $response = new Response()
+return $response, y con esto es rechazada
