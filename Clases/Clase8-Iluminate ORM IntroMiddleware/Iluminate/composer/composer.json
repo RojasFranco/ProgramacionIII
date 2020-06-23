@@ -1,0 +1,16 @@
+{
+    "name": "user/composer",
+    "authors": [
+        {
+            "name": "Franco",
+            "email": "rojas.franco.93@gmail.com"
+        }
+    ],
+    "require": {
+        "firebase/php-jwt": "^5.2",
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.1",
+        "illuminate/database": "^7.16",
+        "illuminate/events": "^7.16"
+    }
+}

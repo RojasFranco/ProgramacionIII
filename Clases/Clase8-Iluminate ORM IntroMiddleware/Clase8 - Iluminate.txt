@@ -17,8 +17,6 @@ IMP!! NO HACE FALTA USAR PDO PARA EL PARCIAL XD XD XD XD
 2°) Iluminate en packagist.org --->Entramos al git : es un componente de Laravel
 Usa mismo ORM
 
-VER VIDEO YA QUE SE LAGUEEO TODO
-
 $capsule->setAsGlobal(); // ES una especie de singleton
 
 $capsule->bootEloquent();
