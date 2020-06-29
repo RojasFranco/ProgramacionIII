@@ -1,0 +1,22 @@
+{
+    "name": "franco/skeleton",
+    "authors": [
+        {
+            "name": "RojasFranco",
+            "email": "rojas.franco.93@gmail.com"
+        }
+    ],
+    "require": {
+        "firebase/php-jwt": "^5.2",
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.1",
+        "illuminate/database": "^7.15",
+        "illuminate/events": "^7.16"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src",
+            "Config\\": "config"
+        }
+    }
+}
