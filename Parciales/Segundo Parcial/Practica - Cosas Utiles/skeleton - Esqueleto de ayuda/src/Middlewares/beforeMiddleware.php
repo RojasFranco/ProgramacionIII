@@ -20,7 +20,7 @@ class ExampleBeforeMiddleware
         //$esValido = Validar::Usuario();
         /*
         if($esvalido) {
-            $response = $handler->handle($request);
+            $response = $handler->handle($request);            //OJO esta linea va al controlleR. Hacer validacion antes
             $existingContent = (string) $response->getBody();    
             $response = new Response();
             $response->getBody()->write($existingContent); 
