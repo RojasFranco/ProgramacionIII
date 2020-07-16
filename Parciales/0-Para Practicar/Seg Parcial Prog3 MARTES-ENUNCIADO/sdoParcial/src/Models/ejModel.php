@@ -9,5 +9,5 @@ class Ejemplo extends \Illuminate\Database\Eloquent\Model{
 
     //  protected $primaryKey = 'idName';   SI EL ID NO SE LLAMA 'id'
 
-    //  public $timestamps = false;     PARA OMITIR UPDATED Y CREATED
+    //public $timestamps = false;
 }
